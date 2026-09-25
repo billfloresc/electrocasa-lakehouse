@@ -1,0 +1,16 @@
+resources:
+  pipelines:
+    electrocasa_pipeline:
+      name: electrocasa_pipeline_${bundle.target}
+      catalog: ${var.catalog_name}
+      schema: bronze
+      serverless: true
+      continuous: false
+
+      libraries:
+        - glob:
+            include: ../src/electrocasa/transformations/**
+
+      configuration:
+        electrocasa.catalog: ${var.catalog_name}
+        electrocasa.sql_foreign_catalog: ${var.sql_foreign_catalog}

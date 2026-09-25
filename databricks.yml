@@ -1,0 +1,36 @@
+bundle:
+  name: electrocasa-lakehouse
+
+include:
+  - resources/*.yml
+
+variables:
+  catalog_name:
+    description: Catalogo del target actual.
+
+  alert_email:
+    description: Correo real para alertas del job.
+
+  schedule_status:
+    description: Estado de la programacion del job.
+    default: PAUSED
+
+  sql_foreign_catalog:
+    description: Catalogo federado que expone Azure SQL.
+    default: electrocasa_sql
+
+targets:
+  dev:
+    mode: development
+    default: true
+    variables:
+      catalog_name: electrocasa_dev
+      schedule_status: PAUSED
+
+  prod:
+    mode: production
+    workspace:
+      root_path: /Workspace/Production/.bundle/${bundle.name}/${bundle.target}
+    variables:
+      catalog_name: electrocasa_prod
+      schedule_status: UNPAUSED

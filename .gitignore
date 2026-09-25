@@ -1,0 +1,6 @@
+.DS_Store
+.databricks/
+__pycache__/
+*.pyc
+.env
+.vscode/

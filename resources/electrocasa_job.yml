@@ -1,0 +1,44 @@
+resources:
+  jobs:
+    electrocasa_job:
+      name: electrocasa_job_${bundle.target}
+      max_concurrent_runs: 1
+
+      schedule:
+        quartz_cron_expression: "0 0 6 * * ?"
+        timezone_id: "America/Lima"
+        pause_status: ${var.schedule_status}
+
+      email_notifications:
+        on_failure:
+          - ${var.alert_email}
+        on_success:
+          - ${var.alert_email}
+
+      tasks:
+        - task_key: ingestar_archivos
+          notebook_task:
+            notebook_path: ../notebooks/01_ingest_files.py
+            base_parameters:
+              catalog: ${var.catalog_name}
+          max_retries: 2
+          min_retry_interval_millis: 60000
+
+        - task_key: ejecutar_pipeline
+          depends_on:
+            - task_key: ingestar_archivos
+          pipeline_task:
+            pipeline_id: ${resources.pipelines.electrocasa_pipeline.id}
+            full_refresh: false
+          max_retries: 1
+          min_retry_interval_millis: 60000
+
+        - task_key: aplicar_gobierno
+          depends_on:
+            - task_key: ejecutar_pipeline
+          notebook_task:
+            notebook_path: ../notebooks/02_apply_governance.py
+            base_parameters:
+              catalog: ${var.catalog_name}
+          max_retries: 1
+          min_retry_interval_millis: 60000
