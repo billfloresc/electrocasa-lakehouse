@@ -1,4 +1,3 @@
-\
 # Databricks notebook source
 # COMMAND ----------
 dbutils.widgets.text("catalog", "electrocasa_dev")
