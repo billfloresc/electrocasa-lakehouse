@@ -1,5 +1,4 @@
 # Databricks notebook source
-# COMMAND ----------
 dbutils.widgets.text("catalog", "electrocasa_dev")
 CATALOG = dbutils.widgets.get("catalog")
 
@@ -14,8 +13,6 @@ print(f"Volume:   {LANDING_VOLUME}")
 print(f"Batch:    {BATCH_ID}")
 
 # COMMAND ----------
-# Auto Loader para fuentes incrementales.
-# El schemaLocation y el checkpoint quedan dentro del Volume.
 
 def cargar_autoloader(nombre, formato, opciones=None):
     opciones = opciones or {}
@@ -77,8 +74,6 @@ cargar_autoloader(
 )
 
 # COMMAND ----------
-# COPY INTO para snapshot de catalogo y eventos por lote de RRHH.
-# COPY INTO es idempotente: un archivo ya cargado se omite al reejecutar.
 
 spark.sql(f"""
 CREATE TABLE IF NOT EXISTS {CATALOG}.landing.catalogo_ingest (
@@ -116,6 +111,7 @@ FORMAT_OPTIONS (
 print(f"OK COPY INTO -> {CATALOG}.landing.catalogo_ingest")
 
 # COMMAND ----------
+
 spark.sql(f"""
 CREATE TABLE IF NOT EXISTS {CATALOG}.landing.empleados_ingest (
     id_empleado STRING,
@@ -160,7 +156,7 @@ FORMAT_OPTIONS (
 print(f"OK COPY INTO -> {CATALOG}.landing.empleados_ingest")
 
 # COMMAND ----------
-# Validacion rapida de las cinco fuentes basadas en archivos.
+
 tablas = [
     "ventas_ingest",
     "catalogo_ingest",

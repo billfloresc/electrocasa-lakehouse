@@ -54,9 +54,6 @@ electrocasa-lakehouse/
 │   ├── 00_setup.ipynb
 │   ├── 01_ingest_files.py
 │   └── 02_apply_governance.py
-├── sql/
-│   ├── 01_create_azure_sql_connection.sql
-│   └── 02_validation_queries.sql
 ├── data/
 ├── docs/
 │   └── evidence/

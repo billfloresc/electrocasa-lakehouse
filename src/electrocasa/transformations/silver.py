@@ -88,8 +88,6 @@ def silver_catalogo_productos():
         .withColumn("marca", F.trim("marca"))
     )
 
-    # El snapshot no trae fecha de actualizacion por producto.
-    # Se conserva una fila por producto; Bronze mantiene todos los registros originales.
     return ultimo_por_id(df, "producto_id", ["_ingested_at", "_source_file"])
 
 
@@ -125,7 +123,6 @@ def silver_empleados_eventos():
 def silver_empleados_historial():
     eventos = spark.read.table(f"{CATALOG}.silver.empleados_eventos")
 
-    # Un DNI asociado a mas de un id_empleado es ambiguo.
     dni_ambiguo = (
         eventos.groupBy("dni")
         .agg(F.countDistinct("id_empleado").alias("cantidad_ids"))
@@ -138,8 +135,6 @@ def silver_empleados_historial():
         .filter(F.col("fecha_evento").isNotNull())
     )
 
-    # La fuente solo tiene fecha, no hora/secuencia.
-    # id_empleado se usa como desempate tecnico y reproducible.
     ventana = Window.partitionBy("dni").orderBy(
         F.col("fecha_evento").asc(),
         F.col("id_empleado").asc(),

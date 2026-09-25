@@ -1,5 +1,4 @@
 # Databricks notebook source
-# COMMAND ----------
 dbutils.widgets.text("catalog", "electrocasa_dev")
 CATALOG = dbutils.widgets.get("catalog")
 
@@ -8,6 +7,7 @@ GRUPO_ING = "electrocasa_ingenieria"
 print(f"Aplicando masking en {CATALOG}")
 
 # COMMAND ----------
+
 spark.sql(f"""
 CREATE OR REPLACE FUNCTION {CATALOG}.silver.mask_dni(valor STRING)
 RETURNS STRING
@@ -28,7 +28,7 @@ END
 """)
 
 # COMMAND ----------
-# Los dos objetos son materialized views creados por Lakeflow.
+
 spark.sql(f"""
 ALTER MATERIALIZED VIEW {CATALOG}.silver.empleados_historial
 ALTER COLUMN dni
@@ -44,8 +44,7 @@ SET MASK {CATALOG}.silver.mask_salario
 print("Masking aplicado.")
 
 # COMMAND ----------
-# Verificacion. Si tu usuario pertenece a electrocasa_ingenieria
-# debe ver DNI y salario reales; otros usuarios con acceso veran los valores protegidos.
+
 display(
     spark.sql(f"""
         SELECT
