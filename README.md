@@ -587,27 +587,21 @@ Validación y despliegue exitoso del target `dev`.
 
 ![Bundle DEV](docs/evidence/10_bundle_dev.png)
 
-## Evidencia 10 - Databricks Asset Bundle en PROD
-
-Validación y despliegue exitoso del target `prod`.
-
-![Bundle PROD](docs/evidence/11_bundle_prod.png)
-
-## Evidencia 11 - Monitoreo
+## Evidencia 10 - Monitoreo
 
 Consulta del event log o historial de ejecución utilizada para revisar el comportamiento del pipeline.
 
-![Monitoreo](docs/evidence/12_event_log.png)
+![Monitoreo](docs/evidence/11_event_log.png)
 
-## Evidencia 12 - Gobierno y seguridad
+## Evidencia 11 - Gobierno y seguridad
 
 Evidencia de los grupos y permisos creados para el proyecto.
 
-![Grupos y permisos](docs/evidence/13_grupos_permisos.png)
+![Grupos y permisos](docs/evidence/12_grupos_permisos.png)
 
 Evidencia de la protección aplicada sobre `dni` y `salario`.
 
-![Masking de datos sensibles](docs/evidence/14_masking.png)
+![Masking de datos sensibles](docs/evidence/13_masking.png)
 
 ---
 
